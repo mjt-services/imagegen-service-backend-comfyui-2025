@@ -1,0 +1,30 @@
+services:
+  imagegen:
+    image: ${IMAGE_TAG}
+    container_name: ${CONTAINER_NAME}
+    restart: always
+    env_file:
+      - ./.env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ${MODELS_DIR}/Stable-diffusion:/app/vendor/models/checkpoints
+      - ${MODELS_DIR}/diffusion_models:/app/vendor/models/diffusion_models
+      - ${MODELS_DIR}/Lora:/app/vendor/models/loras
+      - ${MODELS_DIR}/VAE:/app/vendor/models/vae
+      - ${MODELS_DIR}/ControlNet:/app/vendor/models/controlnet
+      - ${MODELS_DIR}/text_encoder:/app/vendor/models/text_encoders
+      - ${MODELS_DIR}/clip_vision:/app/vendor/models/clip_vision
+      - ${OUTPUTS_DIR}:/app/vendor/output
+      - ${OUTPUTS_DIR}:/app/vendor/input
+      - ${VENDOR_DIR}:/app/vendor
+    ports:
+      - "8188:8188"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    stdin_open: true
+    tty: true
