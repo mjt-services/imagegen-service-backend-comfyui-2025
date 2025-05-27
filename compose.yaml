@@ -1,5 +1,5 @@
 services:
-  imagegen:
+  imagegen-service-backend-comfyui-2025:
     image: ${IMAGE_TAG}
     container_name: ${CONTAINER_NAME}
     restart: always
